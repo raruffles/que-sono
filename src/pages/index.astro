@@ -1,11 +1,14 @@
 ---
-import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import PostGrid from '../components/blog/PostGrid.jsx';
+import { getBlogPosts, paginatePosts } from '../lib/blog.ts';
 
-const posts = await getCollection('posts', (post) => post.data.status === 'published');
+const allPosts = await getBlogPosts();
+const requestedPage = Number(Astro.url.searchParams.get('page') ?? '1');
+const { items: posts, currentPage, totalPages } = paginatePosts(allPosts, requestedPage);
 ---
 
-<Layout title="Keystatic & Astro's Content Collections">
+<Layout title="Que Sono | Home">
   <section class="hero">
     <h1>Que Sono — Blog</h1>
     <p>
@@ -17,16 +20,7 @@ const posts = await getCollection('posts', (post) => post.data.status === 'publi
   </section>
 
   <h2 class="section-title">Posts publicados</h2>
-  <ul class="posts-grid">
-    {
-      posts.map(post => (
-        <li class="post-card">
-          <a href={`/posts/${post.id}`}>
-            <h3 class="post-card-title">{post.data.title}</h3>
-            <p class="post-card-meta">Ler artigo completo</p>
-          </a>
-        </li>
-      ))
-    }
-  </ul>
+  <div>
+    <PostGrid client:load posts={posts} pagination={{ currentPage, totalPages }} />
+  </div>
 </Layout>

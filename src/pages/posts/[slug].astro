@@ -10,6 +10,8 @@ const post = allPosts.find(p => p.id === slug);
 if (!post) throw new Error('No post found for this slug');
 
 const { Content } = await render(post as any);
+const summary = post.data.description || 'Publicação do blog Que Sono.';
+const pubDate = post.data.pubDate ? new Date(post.data.pubDate).toISOString() : '';
 
 // Generate static pages
 export async function getStaticPaths() {
@@ -19,8 +21,23 @@ export async function getStaticPaths() {
 ---
 
 <Layout title={post.data.title}>
-  <article class="article">
-    <h1>{post.data.title}</h1>
+  <section class="post-hero">
+    <div class="post-intro">
+      <h1>{post.data.title}</h1>
+      {pubDate ? (
+        <time class="reading-time" dateTime={pubDate}>
+          {new Intl.DateTimeFormat('pt-BR', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric',
+          }).format(new Date(post.data.pubDate))}
+        </time>
+      ) : null}
+      <p class="post-summary">{summary}</p>
+    </div>
+  </section>
+
+  <article class="post-body">
     <Content />
   </article>
 </Layout>

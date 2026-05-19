@@ -20,8 +20,8 @@ export async function getBlogPosts() {
   const mapped = published.map((e) => ({
     slug: e.id,
     title: e.data?.title ?? '',
-    description: e.data?.description ?? '',
-    coverImage: e.data?.coverImage ?? e.data?.image ?? null,
+    description: e.data?.description ?? 'Abrir publicação completa.',
+    coverImage: e.data?.coverImage ?? e.data?.image ?? '/post-placeholder.svg',
     pubDate: e.data?.pubDate ?? null,
     categories: e.data?.categories ?? [],
     content: undefined,

@@ -6,6 +6,8 @@ import keystatic from '@keystatic/astro';
 
 // https://astro.build/config
 export default defineConfig({
-  adapter: vercel(),
+  adapter: vercel({
+    includeFiles: ['./node_modules/@vercel/routing-utils'],
+  }),
   integrations: [react(), markdoc(), keystatic()],
 });

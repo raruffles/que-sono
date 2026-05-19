@@ -111,6 +111,11 @@ export default function PostGrid({ posts, pagination, baseHref }) {
           <a href={`/posts/${mainPosts[0]?.slug ?? ''}`} className="card-link">
             <h1 className="post-title">{mainPosts[0]?.title}</h1>
             <p className="post-description">{mainPosts[0]?.description}</p>
+            {mainPosts[0]?.author || mainPosts[0]?.pubDate ? (
+              <p className="card-date">
+                {[mainPosts[0]?.author?.name, formatDate(mainPosts[0]?.pubDate)].filter(Boolean).join(' · ')}
+              </p>
+            ) : null}
           </a>
         </div>
       </article>
@@ -128,6 +133,11 @@ export default function PostGrid({ posts, pagination, baseHref }) {
             <a href={`/posts/${post.slug}`} className="card-link">
               <h2 className="post-title">{post.title}</h2>
               <p className="post-description">{post.description}</p>
+              {post.author || post.pubDate ? (
+                <p className="card-date">
+                  {[post.author?.name, formatDate(post.pubDate)].filter(Boolean).join(' · ')}
+                </p>
+              ) : null}
             </a>
           </div>
         </article>

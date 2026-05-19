@@ -1,22 +1,25 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import { normalizePostSlug } from '../../lib/blog.ts';
 
 const { slug } = Astro.params;
 if (!slug) throw new Error('Slug not found');
 const allPosts = await getCollection('posts', (entry) => entry.data.status === 'published');
-const post = allPosts.find(p => p.id === slug);
+const authors = await getCollection('authors');
+const post = allPosts.find((p) => normalizePostSlug(p.id) === slug);
 
 if (!post) throw new Error('No post found for this slug');
+const author = post.data.author ? authors.find((entry) => entry.id === post.data.author) : null;
 
 const { Content } = await render(post as any);
 const summary = post.data.description || 'Publicação do blog Que Sono.';
-const pubDate = post.data.pubDate ? new Date(post.data.pubDate).toISOString() : '';
+const pubDate = post.data.publishedDate ? new Date(post.data.publishedDate).toISOString() : '';
 
 // Generate static pages
 export async function getStaticPaths() {
   const posts = await getCollection('posts', (entry) => entry.data.status === 'published');
-  return posts.map(post => ({ params: { slug: post.id } }));
+  return posts.map((post) => ({ params: { slug: normalizePostSlug(post.id) } }));
 }
 ---
 
@@ -30,8 +33,11 @@ export async function getStaticPaths() {
             day: '2-digit',
             month: 'long',
             year: 'numeric',
-          }).format(new Date(post.data.pubDate))}
+          }).format(new Date(post.data.publishedDate))}
         </time>
+      ) : null}
+      {author ? (
+        <p class="post-summary">{author.data.name}{author.data.role ? ` · ${author.data.role}` : ''}</p>
       ) : null}
       <p class="post-summary">{summary}</p>
     </div>

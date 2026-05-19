@@ -2,6 +2,10 @@ import { getCollection } from 'astro:content';
 
 export const POSTS_PER_PAGE = 4;
 
+export function normalizePostSlug(id) {
+  return id.replace(/\/index$/, '');
+}
+
 const sortByDateDesc = (left, right) => {
   const a = left.pubDate ? new Date(left.pubDate).getTime() : 0;
   const b = right.pubDate ? new Date(right.pubDate).getTime() : 0;
@@ -9,7 +13,8 @@ const sortByDateDesc = (left, right) => {
 };
 
 export async function getBlogPosts() {
-  const entries = await getCollection('posts');
+  const [entries, authors] = await Promise.all([getCollection('posts'), getCollection('authors')]);
+  const authorBySlug = new Map(authors.map((author) => [author.id, author.data]));
 
   const published = entries.filter((e) => {
     const status = (e.data && e.data.status) || e.data?.published;
@@ -18,11 +23,12 @@ export async function getBlogPosts() {
   });
 
   const mapped = published.map((e) => ({
-    slug: e.id,
+    slug: normalizePostSlug(e.id),
     title: e.data?.title ?? '',
     description: e.data?.description ?? 'Abrir publicação completa.',
     coverImage: e.data?.coverImage ?? e.data?.image ?? '/post-placeholder.svg',
-    pubDate: e.data?.pubDate ?? null,
+    pubDate: e.data?.publishedDate ?? e.data?.pubDate ?? null,
+    author: e.data?.author ? authorBySlug.get(e.data.author) : null,
     categories: e.data?.categories ?? [],
     content: undefined,
   }));

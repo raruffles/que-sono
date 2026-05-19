@@ -247,16 +247,12 @@ li,
 }
 
 .page-shell {
-	padding: clamp(24px, 4vw, 56px) clamp(18px, 3vw, 36px) 56px;
+	padding: 64px clamp(18px, 3vw, 36px) 56px;
 }
 
 .home-layout {
 	max-width: 900px;
 	margin: 0 auto;
-}
-
-.home-layout--compact {
-	padding-top: 64px;
 }
 
 .post-grid {

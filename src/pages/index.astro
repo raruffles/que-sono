@@ -9,19 +9,7 @@ const { items: posts, currentPage, totalPages } = paginatePosts(allPosts, reques
 ---
 
 <Layout title="Que Sono | Home">
-	<section class="home-layout" id="home">
-		<div class="home-logo" aria-hidden="true">
-			<img src="/logo.svg" alt="O que me tira o sono | P.H" />
-		</div>
-
+	<section class="home-layout home-layout--compact" id="home">
 		<PostGrid posts={posts} pagination={{ currentPage, totalPages }} />
-
-		<section id="about" class="menu-section">
-			Sobre o blog: um espaço para ideias, histórias e publicações do Keystatic.
-		</section>
-
-		<section id="contact" class="menu-section">
-			Contato: use o admin em /keystatic para editar os posts.
-		</section>
 	</section>
 </Layout>

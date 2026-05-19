@@ -56,6 +56,10 @@ export default config({
       format: { contentField: 'content' },
       schema: {
         title: fields.slug({ name: { label: 'Título' } }),
+        description: fields.text({
+          label: 'Descrição',
+          multiline: true,
+        }),
         status: fields.select({
           label: 'Status',
           options: [

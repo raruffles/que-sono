@@ -20,6 +20,14 @@ export default config({
       format: { contentField: 'content' },
       schema: {
         title: fields.slug({ name: { label: 'Título' } }),
+        status: fields.select({
+          label: 'Status',
+          options: [
+            { label: 'Publicado', value: 'published' },
+            { label: 'Rascunho', value: 'draft' },
+          ],
+          defaultValue: 'published',
+        }),
         content: fields.markdoc({ label: 'Conteúdo' }),
       },
     }),

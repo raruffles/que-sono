@@ -4,7 +4,7 @@ import Layout from '../../layouts/Layout.astro';
 
 const { slug } = Astro.params;
 if (!slug) throw new Error('Slug not found');
-const allPosts = await getCollection('posts');
+const allPosts = await getCollection('posts', (entry) => entry.data.status === 'published');
 const post = allPosts.find(p => p.id === slug);
 
 if (!post) throw new Error('No post found for this slug');
@@ -13,7 +13,7 @@ const { Content } = await render(post as any);
 
 // Generate static pages
 export async function getStaticPaths() {
-  const posts = await getCollection('posts');
+  const posts = await getCollection('posts', (entry) => entry.data.status === 'published');
   return posts.map(post => ({ params: { slug: post.id } }));
 }
 ---

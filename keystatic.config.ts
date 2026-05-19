@@ -1,7 +1,21 @@
-import { config, collection, fields } from '@keystatic/core'
+// keystatic.config.ts
+import { config, fields, collection } from '@keystatic/core';
+
+declare const process: {
+  env: {
+    VERCEL?: string;
+  };
+};
 
 export default config({
-  storage: { kind: 'local' },
+  storage: process.env.VERCEL
+    ? {
+        kind: 'github',
+        repo: 'raruffles/que-sono',
+      }
+    : {
+        kind: 'local',
+      },
   collections: {
     posts: collection({
       label: 'Posts',

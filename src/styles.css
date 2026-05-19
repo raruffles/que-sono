@@ -102,6 +102,15 @@ li,
 	width: auto;
 }
 
+/* Hide brand logo on the home page and ensure top spacing */
+.is-home .brand img {
+	display: none;
+}
+
+.is-home .page-shell {
+	padding-top: 64px;
+}
+
 .header-actions {
 	justify-self: end;
 	display: inline-flex;

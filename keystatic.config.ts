@@ -78,10 +78,16 @@ export default config({
         }),
         coverImage: fields.image({
           label: 'Imagem de Capa',
-          directory: 'src/content/posts',
-          publicPath: './',
+          publicPath: './content',
         }),
-        content: fields.markdoc({ label: 'Conteúdo' }),
+        content: fields.markdoc({
+          label: 'Conteúdo',
+          options: {
+            image: {
+              publicPath: './content',
+            },
+          },
+        }),
       },
     }),
     authors: collection({

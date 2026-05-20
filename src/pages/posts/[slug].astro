@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import { normalizePostSlug } from '../../lib/blog.ts';
+import { formatBlogDate } from '../../lib/urls.ts';
 
 const { slug } = Astro.params;
 if (!slug) throw new Error('Slug not found');
@@ -14,7 +15,7 @@ const author = post.data.author ? authors.find((entry) => entry.id === post.data
 
 const { Content } = await render(post as any);
 const summary = post.data.description || 'Publicação do blog Que Sono.';
-const pubDate = post.data.publishedDate ? new Date(post.data.publishedDate).toISOString() : '';
+const pubDate = formatBlogDate(post.data.publishedDate);
 
 // Generate static pages
 export async function getStaticPaths() {
@@ -27,15 +28,7 @@ export async function getStaticPaths() {
   <section class="post-hero">
     <div class="post-intro">
       <h1>{post.data.title}</h1>
-      {pubDate ? (
-        <time class="reading-time" dateTime={pubDate}>
-          {new Intl.DateTimeFormat('pt-BR', {
-            day: '2-digit',
-            month: 'long',
-            year: 'numeric',
-          }).format(new Date(post.data.publishedDate))}
-        </time>
-      ) : null}
+      {pubDate ? <time class="reading-time" dateTime={String(post.data.publishedDate).slice(0, 10)}>{pubDate}</time> : null}
       {author ? (
         <p class="post-summary">{author.data.name}{author.data.role ? ` · ${author.data.role}` : ''}</p>
       ) : null}

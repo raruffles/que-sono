@@ -1,13 +1,4 @@
-import { getPageHref, getCategoryHref } from '../../lib/urls.ts';
-
-const formatDate = (pubDate) =>
-  pubDate
-    ? new Intl.DateTimeFormat('pt-BR', {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric',
-      }).format(new Date(pubDate))
-    : '';
+import { getPageHref, getCategoryHref, formatBlogDate } from '../../lib/urls.ts';
 
 export default function PostGrid({ posts, pagination, baseHref }) {
   const mainPosts = posts;
@@ -113,7 +104,7 @@ export default function PostGrid({ posts, pagination, baseHref }) {
             <p className="post-description">{mainPosts[0]?.description}</p>
             {mainPosts[0]?.author || mainPosts[0]?.pubDate ? (
               <p className="card-date">
-                {[mainPosts[0]?.author?.name, formatDate(mainPosts[0]?.pubDate)].filter(Boolean).join(' · ')}
+                {[mainPosts[0]?.author?.name, formatBlogDate(mainPosts[0]?.pubDate)].filter(Boolean).join(' · ')}
               </p>
             ) : null}
           </a>
@@ -135,7 +126,7 @@ export default function PostGrid({ posts, pagination, baseHref }) {
               <p className="post-description">{post.description}</p>
               {post.author || post.pubDate ? (
                 <p className="card-date">
-                  {[post.author?.name, formatDate(post.pubDate)].filter(Boolean).join(' · ')}
+                  {[post.author?.name, formatBlogDate(post.pubDate)].filter(Boolean).join(' · ')}
                 </p>
               ) : null}
             </a>

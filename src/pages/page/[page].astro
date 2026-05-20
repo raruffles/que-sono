@@ -1,0 +1,24 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PostGrid from '../../components/blog/PostGrid.jsx';
+import { getBlogPosts, paginatePosts, POSTS_PER_PAGE } from '../../lib/blog.ts';
+
+const allPosts = await getBlogPosts();
+
+export async function getStaticPaths() {
+  const totalPages = Math.max(1, Math.ceil((await getBlogPosts()).length / POSTS_PER_PAGE));
+
+  return Array.from({ length: Math.max(totalPages - 1, 0) }, (_, index) => ({
+    params: { page: String(index + 2) },
+  }));
+}
+
+const pageNumber = Number(Astro.params.page ?? '1');
+const { items: posts, currentPage, totalPages } = paginatePosts(allPosts, pageNumber);
+---
+
+<Layout title={`Que Sono | Página ${currentPage}`}>
+	<section class="home-layout home-layout--compact" id="home">
+		<PostGrid posts={posts} pagination={{ currentPage, totalPages }} />
+	</section>
+</Layout>

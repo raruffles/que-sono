@@ -66,7 +66,7 @@ export default config({
             { label: 'Rascunho', value: 'draft' },
             { label: 'Publicado', value: 'published' },
           ],
-          defaultValue: 'draft',
+          defaultValue: 'published',
         }),
         publishedDate: fields.date({
           label: 'Data de Publicação',

@@ -6,7 +6,13 @@ const posts = defineCollection({
   schema: z.object({
     title: z.string(),
     status: z.enum(['published', 'draft']).default('published'),
-    publishedDate: z.string().optional(),
+    publishedDate: z.preprocess((arg) => {
+      if (!arg) return undefined;
+      // Keystatic may write a Date object; normalize to ISO date string (YYYY-MM-DD)
+      if (arg instanceof Date) return arg.toISOString().split('T')[0];
+      if (typeof arg === 'string') return arg;
+      return String(arg);
+    }, z.string().optional()),
     author: z.string().optional(),
     description: z.string().optional(),
     coverImage: z.string().optional(),

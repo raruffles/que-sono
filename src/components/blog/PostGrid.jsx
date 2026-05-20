@@ -1,4 +1,4 @@
-import { getPageHref, getCategoryHref, formatBlogDate } from '../../lib/urls.ts';
+import { getPageHref, formatBlogDate } from '../../lib/urls.ts';
 
 export default function PostGrid({ posts, pagination, baseHref }) {
   const mainPosts = posts;
@@ -81,8 +81,36 @@ export default function PostGrid({ posts, pagination, baseHref }) {
 
   if (!mainPosts.length) {
     return (
-      <div style={{ padding: '24px 0', color: '#5f6268' }}>
-        Nenhum post disponível.
+      <div className="home-empty-state">
+        <p className="home-empty-kicker">Keystatic pronto</p>
+        <h2>O blog está limpo e aguardando o primeiro post.</h2>
+        <p className="home-empty-copy">
+          Quando você publicar, cada post vai salvar a capa e as imagens dentro da própria pasta, no caminho mais natural possível para o Keystatic.
+        </p>
+
+        <div className="home-empty-actions">
+          <a className="button-link" href="/keystatic">
+            Abrir Keystatic
+          </a>
+          <a className="button-link button-link--ghost" href="/">
+            Voltar ao início
+          </a>
+        </div>
+
+        <div className="home-empty-notes" aria-label="Padrão de mídia">
+          <div>
+            <strong>Capa</strong>
+            <span>fica na pasta content/ do post</span>
+          </div>
+          <div>
+            <strong>Imagens</strong>
+            <span>entram junto do conteúdo do post</span>
+          </div>
+          <div>
+            <strong>Rascunho</strong>
+            <span>o modelo já nasce sem publicar nada por engano</span>
+          </div>
+        </div>
       </div>
     );
   }

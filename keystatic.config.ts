@@ -4,6 +4,18 @@ import { config, fields, collection, singleton } from '@keystatic/core';
 
 const isDevelopment = import.meta.env.DEV;
 
+const normalizeAssetFilename = (originalFilename: string) => {
+  const match = originalFilename.match(/^(.*?)(\.[^.]+)?$/);
+  const baseName = match?.[1] ?? originalFilename;
+  const extension = match?.[2] ?? '';
+
+  return `${baseName
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')}${extension.toLowerCase()}`;
+};
+
 export default config({
   storage: isDevelopment
     ? {
@@ -66,7 +78,7 @@ export default config({
             { label: 'Rascunho', value: 'draft' },
             { label: 'Publicado', value: 'published' },
           ],
-          defaultValue: 'draft',
+          defaultValue: 'published',
         }),
         publishedDate: fields.date({
           label: 'Data de Publicação',
@@ -78,13 +90,16 @@ export default config({
         }),
         coverImage: fields.image({
           label: 'Imagem de Capa',
+          directory: './content',
           publicPath: './content',
         }),
         content: fields.markdoc({
           label: 'Conteúdo',
           options: {
             image: {
+              directory: './content',
               publicPath: './content',
+              transformFilename: normalizeAssetFilename,
             },
           },
         }),

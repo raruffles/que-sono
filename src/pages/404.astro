@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Que Sono | 404">
+	<section class="error-page">
+		<div class="error-code">404</div>
+		<h1>Página não encontrada</h1>
+		<p>
+			O endereço que você abriu não existe mais ou ainda não foi publicado.
+			Volte para a home ou siga direto para o Keystatic.
+		</p>
+
+		<div class="error-actions">
+			<a class="button-link" href="/">
+				Ir para a home
+			</a>
+			<a class="button-link button-link--ghost" href="/keystatic">
+				Abrir Keystatic
+			</a>
+		</div>
+
+		<p class="error-meta">Se o link veio de um post antigo, talvez o slug tenha mudado junto com a limpeza de conteúdo.</p>
+	</section>
+</Layout>

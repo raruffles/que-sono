@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Que Sono | 500">
+	<section class="error-page">
+		<div class="error-code">500</div>
+		<h1>Erro interno do servidor</h1>
+		<p>
+			Algo falhou ao processar a página. O site mantém uma versão própria para esse erro,
+			em vez da mensagem padrão da plataforma.
+		</p>
+
+		<div class="error-actions">
+			<a class="button-link" href="/">
+				Voltar para a home
+			</a>
+			<a class="button-link button-link--ghost" href="/keystatic">
+				Abrir Keystatic
+			</a>
+		</div>
+
+		<p class="error-meta">Se isso aparecer depois de publicar, vale revisar a entrada mais recente ou o deploy em andamento.</p>
+	</section>
+</Layout>

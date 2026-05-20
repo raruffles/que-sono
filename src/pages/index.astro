@@ -10,6 +10,14 @@ const { items: posts, currentPage, totalPages } = paginatePosts(allPosts, reques
 
 <Layout title="Que Sono | Home">
 	<section class="home-layout home-layout--compact" id="home">
+		<header class="home-hero">
+			<p class="home-hero-kicker">Blog Keystatic</p>
+			<h1>Um caderno limpo para publicar sem ruído.</h1>
+			<p>
+				Os posts vão entrar em pastas próprias, com mídia organizada no mesmo lugar em que o Keystatic espera salvar tudo.
+			</p>
+		</header>
+
 		<PostGrid posts={posts} pagination={{ currentPage, totalPages }} />
 	</section>
 </Layout>
